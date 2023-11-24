@@ -63,8 +63,147 @@ def cifrar_palabra(palabra, numero_e, producto_pq):
     print("Mensaje cifrado")
     print(cadena_cifrada)
 
+def find_bezout_identity(a, b):
+    # Asegurarse de que a sea mayor o igual que b
+    if b > a:
+        a, b = b, a
+
+    # Inicializar variables para la identidad de Bezout
+    x1, y1 = 1, 0
+    x2, y2 = 0, 1
+
+    while b != 0:
+        cociente = a // b
+        residuo = a % b
+
+        # Actualizar la identidad de Bezout
+        temp_x, temp_y = x2, y2
+        x2 = x1 - cociente * x2
+        y2 = y1 - cociente * y2
+        x1, y1 = temp_x, temp_y
+
+        print(f"{a} ÷ {b} = {cociente} con un residuo de {residuo}.")
+
+        a, b = b, residuo
+
+    # El MCD es a, la identidad de Bezout es (x1, y1)
+    bezout_identity = (x1, y1, a)
+    return bezout_identity
+
+def exp_modular(base, exponente, modulo):
+    resultado = 1
+    base = base % modulo
+
+    while exponente > 0:
+        # Si el exponente es impar, multiplicar el resultado con la base
+        if exponente % 2 == 1:
+            resultado = (resultado * base) % modulo
+
+        # Ahora exponente es par, dividirlo por 2
+        exponente = exponente // 2
+        base = (base * base) % modulo
+    #Esto es necesario ya que si no podria estar un 12 en lugar de un 0012 lo que haria que no estuviera la ´A´ en la primera.
+    resultado_formateado = str(resultado).zfill(4)
+
+    return resultado_formateado
+def numero_a_letras(numero):
+    # Convertir el número a una cadena
+    numero_str = str(numero)
+
+    # Asegurarse de que la longitud de la cadena sea par agregando un '0' al principio si es necesario
+    if len(numero_str) % 2 != 0:
+        numero_str = '0' + numero_str
+    # Dividir la cadena en bloques de dos caracteres
+    bloques = [numero_str[i:i+2] for i in range(0, len(numero_str), 2)]
+
+    # Convertir cada bloque a un numero entero y luego a su representación de letra segun el diccionario
+    diccionario = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letras = [diccionario[int(bloque)] for bloque in bloques]
+
+    # Unir las letras en una cadena
+    mensaje = ''.join(letras)
+
+    return mensaje
+
+
 def opcion_descifrar():
-    print
+    print("desifrar")
+    numero_p = 0
+    primo = False
+
+    while not primo:
+        numero_p = int(input("Ingresa el primer numero primo usado para encriptar: "))
+        primo = es_primo(numero_p)
+        if not primo:
+            print("El numero no es primo. Intentalo de nuevo.")
+
+    print("Numero primo valido:", numero_p)
+
+    numero_q = 0
+    primo = False
+
+    while not primo:
+        numero_q = int(input("Ingresa el segundo numero primo usado para encriptar: "))
+        primo = es_primo(numero_q)
+        if not primo:
+            print("El numero no es primo. Intentalo de nuevo.")
+
+    print("Numero primo valido:", numero_q)
+    multiplicacion_pq  = numero_p * numero_q
+    producto_pq  = (numero_p - 1) * (numero_q - 1)
+    MCD = 0
+    numero_e = 0
+
+    while MCD != 1:
+        numero_e = int(input(f"Ingresa tu numero e tal que MCD ({producto_pq}, e) sea 1: "))
+        MCD = find_MCD(producto_pq, numero_e)
+        if MCD != 1:
+            print("El MCD no es 1, intentalo de nuevo.")
+
+    print("Numero e valido:", numero_e)
+    print("La llave publica es: (", numero_e, ",", producto_pq, ")")
+    bezout_identity = find_bezout_identity(producto_pq, numero_e)
+    print(f"Identidad de Bézout: {bezout_identity[0]} * {producto_pq} + {bezout_identity[1]} * {numero_e} = {bezout_identity[2]}")
+    resultado = bezout_identity[1] % producto_pq
+    if resultado < 0:
+        resultado += producto_pq
+    print("d = ",resultado)
+
+
+    mensaje = input("Ingresa el mensaje cifrado en bloques de 4 numeros\nEjemplo:0194 0312 0196\n")
+    # Dividir la cadena en bloques de 4 caracteres
+    bloques = mensaje.split()
+
+    # Inicializar una lista para almacenar los numeros convertidos
+    numeros = []
+
+    # Iterar sobre cada bloque y convertirlo a un numero
+    for bloque in bloques:
+        numero = int(bloque)
+        numeros.append(numero)
+
+    # Imprimir la lista de numeros
+    print("Números ingresados:", numeros, "Para descencriptar se elevara cada numero a:", resultado, "= mod", multiplicacion_pq)
+    # Aplicar la función exp_modular a cada valor en la lista numeros
+    resultados_exp_modular = [exp_modular(num, resultado, multiplicacion_pq) for num in numeros]
+
+    # Imprimir los resultados
+    for i, resultado_exp_modular in enumerate(resultados_exp_modular):
+        print(f"Resultado para numeros[{i}]: {resultado_exp_modular}")
+
+    # Inicializar una cadena para almacenar los mensajes resultantes
+    mensaje_resultante = ""
+
+    # Aplicar la funcion numero_a_letras a cada resultado en la lista resultados_exp_modular
+    for resultado_exp_modular in resultados_exp_modular:
+        letra_resultante = numero_a_letras(resultado_exp_modular)
+        mensaje_resultante += letra_resultante
+
+    # Imprimir el mensaje resultante
+    print("Mensaje resultante:", mensaje_resultante)
+    
+
+
     
 
 def opcion_cifrar():
@@ -106,6 +245,7 @@ def opcion_cifrar():
 
     palabra = input("Ingresa una palabra: ").upper()
     cifrar_palabra(palabra, numero_e, multiplicacion_pq)
+
 
 def mostrar_menu():
     print("Opciones disponibles:")
