@@ -107,7 +107,7 @@ def exp_modular(base, exponente, modulo):
 
     return resultado_formateado
 def numero_a_letras(numero):
-    # Convertir el número a una cadena
+    # Convertir el numero a una cadena
     numero_str = str(numero)
 
     # Asegurarse de que la longitud de la cadena sea par agregando un '0' al principio si es necesario
