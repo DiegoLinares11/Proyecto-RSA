@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -60,7 +62,8 @@ public class Main {
 
         System.out.println("Ingresa una palabra: ");
         String palabra = scan.nextLine().toUpperCase(); // Convertir la palabra a mayusculas
-        separarPalabra(palabra);
+        
+        separarPalabra(palabra, numeroE, productoPQ);
     }
 
     public static boolean esPrimo(int numero) {
@@ -99,13 +102,19 @@ public class Main {
         return a;
     }
 
-    public static void separarPalabra(String palabra) {
+    public static void separarPalabra(String palabra, int numeroE, int productoPQ) {
+        String nn1;
+        String nn2;
+        String sfinal;
+        double nfinal;
+
+        ArrayList<Double> numeros = new ArrayList<>();
         String diccionario = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         // Recorrer la palabra en bloques de dos letras
         for (int i = 0; i < palabra.length(); i += 2) {
             char letra1 = palabra.charAt(i);
-            char letra2 = (i + 1 < palabra.length()) ? palabra.charAt(i + 1) : ' ';
+            char letra2 = (i + 1 < palabra.length()) ? palabra.charAt(i + 1) : 'A';
 
             // Obtener el número correspondiente a cada letra
             int numero1 = diccionario.indexOf(letra1);
@@ -114,10 +123,34 @@ public class Main {
             // Imprimir el resultado
             System.out.printf("%c%c = %02d%02d%n", letra1, letra2, numero1, numero2);
             System.out.println(numero1);
+
             if (numero2 != -1) {
                 System.out.println(numero2);
             }
+            
+            if (numero1 <= 9 && numero2 > 9) {
+                nn1 = "0" + numero1;
+                sfinal = nn1 + numero2;
+            } else if (numero1 > 9 && numero2 <= 9) {
+                
+                nn2 = "0" + numero2;
+                sfinal = numero1 + nn2;
+
+            }else if (numero1 <= 9 && numero2 <= 9){
+                nn1 = "0" + numero1;
+                nn2 = "0" + numero2;
+                sfinal = nn1 + nn2;
+
+            } else {
+                sfinal = Integer.toString(numero1) + Integer.toString(numero2);
+            }
+
+            nfinal = (Math.pow(Integer.parseInt(sfinal), productoPQ)) % productoPQ;
+            numeros.add(nfinal);
         }
+        
+        System.out.println(numeros);
     }
+
 
 }
