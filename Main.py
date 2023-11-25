@@ -242,7 +242,7 @@ def opcion_cifrar():
     print("Numero primo valido:", numero_q)
 
     producto_pq  = (numero_p - 1) * (numero_q - 1)
-    multiplicacion_pq  = numero_p * numero_q
+    multiplicacion_pq  = 2537
     MCD = 0
     numero_e = 0
 
