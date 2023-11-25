@@ -247,7 +247,7 @@ def opcion_cifrar():
     numero_e = 0
 
     while MCD != 1:
-        numero_e = int(input(f"Ingresa tu numero e tal que MCD ({producto_pq}, e) sea 1: "))
+        numero_e = int(input(f"Ingresa tu numero e tal que MCD (e, {producto_pq}) sea 1: "))
         MCD = find_MCD(producto_pq, numero_e)
         if MCD != 1:
             print("El MCD no es 1, intentalo de nuevo.")
