@@ -185,20 +185,25 @@ def opcion_descifrar():
     print("d = ",resultado)
 
 
-    mensaje = input("Ingresa el mensaje cifrado en bloques de 4 numeros\nEjemplo:0194 0312 0196\n")
-    # Dividir la cadena en bloques de 4 caracteres
-    bloques = mensaje.split()
-
-    # Inicializar una lista para almacenar los numeros convertidos
     numeros = []
 
-    # Iterar sobre cada bloque y convertirlo a un numero
-    for bloque in bloques:
-        numero = int(bloque)
-        numeros.append(numero)
+    while True:
+        try:
+            mensaje = input("Ingresa el mensaje cifrado en bloques de 4 numeros\nEjemplo: 0194 0312 0196\n")
+            
+            # Dividir la cadena en bloques de 4 caracteres
+            bloques = mensaje.split()
 
-    # Imprimir la lista de numeros
-    print("Números ingresados:", numeros, "Para descencriptar se elevara cada numero a:", resultado, "= mod", multiplicacion_pq)
+            # Iterar sobre cada bloque y convertirlo a un numero
+            for bloque in bloques:
+                numero = int(bloque)
+                numeros.append(numero)
+
+            # Si no hay excepciones (es decir, si todas las conversiones a int fueron exitosas), salir del bucle
+            break
+
+        except ValueError:
+            print("Error: Ingresa solo números. Intenta de nuevo.")
     # Aplicar la función exp_modular a cada valor en la lista numeros
     resultados_exp_modular = [exp_modular(num, resultado, multiplicacion_pq) for num in numeros]
 
