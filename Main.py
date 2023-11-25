@@ -1,3 +1,11 @@
+"""
+-----------------------------------
+Proyecto RSA-Matematica Discreta
+-----------------------------------
+Autores: 
+- Diego Linares -> 221256
+- Christian Echeverria -> 221441
+"""
 import os
 
 def limpiar_pantalla():
