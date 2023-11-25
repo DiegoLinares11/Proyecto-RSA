@@ -247,6 +247,18 @@ def opcion_cifrar():
 
 
 def mostrar_menu():
+    texto_ascii = '''
+______       # ______      # ________      #
+/_____/\      #/_____/\     #/_______/\     #
+\:::_ \ \     #\::::_\/_    #\::: _  \ \    #
+ \:(_) ) )_   # \:\/___/\   # \::(_)  \ \   #
+  \: __ `\ \  #  \_::._\:\  #  \:: __  \ \  #
+   \ \ `\ \ \ #    /____\:\ #   \:.\ \  \ \ #
+    \_\/ \_\/ #    \_____\/ #    \__\/\__\/ #
+              ##             ##               ##    
+    '''
+
+    print(texto_ascii)
     print("Opciones disponibles:")
     print("1. Cifrar palabra")
     print("2. Descifrar palabra")
