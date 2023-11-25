@@ -253,7 +253,7 @@ def opcion_cifrar():
             print("El MCD no es 1, intentalo de nuevo.")
 
     print("Numero valido:", numero_e)
-    print("La llave publica es: (", numero_e, ",", producto_pq, ")")
+    print("La llave publica es: (", numero_e, ",", multiplicacion_pq, ")")
 
     palabra = input("Ingresa una palabra: ").upper()
     cifrar_palabra(palabra, numero_e, multiplicacion_pq)
