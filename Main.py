@@ -233,22 +233,23 @@ def opcion_descifrar():
 
 def opcion_cifrar():
     print("cifrar")
-    print("Ingresa el primer numero primo: ")
-    numero_p = obtener_primo()
-    print("Numero primo valido:", numero_p)
+    #print("Ingresa el primer numero primo: ")
+    #numero_p = obtener_primo()
+    #print("Numero primo valido:", numero_p)
     
-    print("Ingresa el segundo numero primo: ")
-    numero_q = obtener_primo()
-    print("Numero primo valido:", numero_q)
+    #print("Ingresa el segundo numero primo: ")
+    #numero_q = obtener_primo()
+    #print("Numero primo valido:", numero_q)
 
-    producto_pq  = (numero_p - 1) * (numero_q - 1)
-    multiplicacion_pq  = 2537
+    #producto_pq  = (numero_p - 1) * (numero_q - 1)
+    multiplicacion_pq = 0
+    multiplicacion_pq  = int(input("Ingresa el numero p*q: "))
     MCD = 0
     numero_e = 0
 
     while MCD != 1:
-        numero_e = int(input(f"Ingresa tu numero e tal que MCD (e, {producto_pq}) sea 1: "))
-        MCD = find_MCD(producto_pq, numero_e)
+        numero_e = int(input(f"Ingresa tu numero e tal que MCD (e, {multiplicacion_pq}) sea 1: "))
+        MCD = find_MCD(multiplicacion_pq, numero_e)
         if MCD != 1:
             print("El MCD no es 1, intentalo de nuevo.")
 
