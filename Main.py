@@ -1,10 +1,36 @@
+import os
+
+def limpiar_pantalla():
+    if os.name == 'posix':  # Comprueba si es un sistema tipo UNIX
+        input("Presiona Enter para limpiar la pantalla...")
+        os.system('clear')
+    elif os.name == 'nt':  # Comprueba si es un sistema Windows
+        input("Presiona Enter para limpiar la pantalla...")
+        os.system('cls')
+    else:
+        # Si no es un sistema compatible, simplemente espera a que el usuario presione Enter
+        input("Presiona Enter para continuar...")
+        
 def es_primo(numero):
-    if numero == 0 or numero == 1 or numero == 4:
+    if numero == '' or numero == '0' or numero == ' ' or numero == '1' or numero == '4':
         return False
-    for x in range(2, numero // 2):
-        if numero % x == 0:
+    for x in range(2, int(numero) // 2 + 1):
+        if int(numero) % x == 0:
             return False
     return True
+
+def obtener_primo():
+    while True:
+        entrada = input(": ")
+        if entrada.strip() == '':
+            print("No has ingresado nada. Por favor, ingresa un número.")
+            continue 
+
+        if not es_primo(entrada):
+            print("El número ingresado no es primo. Inténtalo de nuevo.")
+            continue  
+
+        return int(entrada)
 
 def find_MCD(a, b):
     if b > a:
@@ -106,6 +132,7 @@ def exp_modular(base, exponente, modulo):
     resultado_formateado = str(resultado).zfill(4)
 
     return resultado_formateado
+
 def numero_a_letras(numero):
     # Convertir el numero a una cadena
     numero_str = str(numero)
@@ -127,26 +154,14 @@ def numero_a_letras(numero):
 
 
 def opcion_descifrar():
-    print("desifrar")
-    numero_p = 0
-    primo = False
-
-    while not primo:
-        numero_p = int(input("Ingresa el primer numero primo usado para encriptar: "))
-        primo = es_primo(numero_p)
-        if not primo:
-            print("El numero no es primo. Intentalo de nuevo.")
-
+    print("Descifrar")
+    print("Ingresa el primer numero primo: ")
+    numero_p = obtener_primo()
+        
     print("Numero primo valido:", numero_p)
 
-    numero_q = 0
-    primo = False
-
-    while not primo:
-        numero_q = int(input("Ingresa el segundo numero primo usado para encriptar: "))
-        primo = es_primo(numero_q)
-        if not primo:
-            print("El numero no es primo. Intentalo de nuevo.")
+    print("Ingresa el segundo numero primo: ")
+    numero_q = obtener_primo()
 
     print("Numero primo valido:", numero_q)
     multiplicacion_pq  = numero_p * numero_q
@@ -159,7 +174,7 @@ def opcion_descifrar():
         MCD = find_MCD(producto_pq, numero_e)
         if MCD != 1:
             print("El MCD no es 1, intentalo de nuevo.")
-
+        
     print("Numero e valido:", numero_e)
     print("La llave publica es: (", numero_e, ",", producto_pq, ")")
     bezout_identity = find_bezout_identity(producto_pq, numero_e)
@@ -201,32 +216,16 @@ def opcion_descifrar():
 
     # Imprimir el mensaje resultante
     print("Mensaje resultante:", mensaje_resultante)
-    
-
-
-    
+     
 
 def opcion_cifrar():
-    numero_p = 0
-    primo = False
-
-    while not primo:
-        numero_p = int(input("Ingresa el primer numero primo: "))
-        primo = es_primo(numero_p)
-        if not primo:
-            print("El numero no es primo. Intentalo de nuevo.")
-
+    print("cifrar")
+    print("Ingresa el primer numero primo: ")
+    numero_p = obtener_primo()
     print("Numero primo valido:", numero_p)
-
-    numero_q = 0
-    primo = False
-
-    while not primo:
-        numero_q = int(input("Ingresa el segundo numero primo: "))
-        primo = es_primo(numero_q)
-        if not primo:
-            print("El numero no es primo. Intentalo de nuevo.")
-
+    
+    print("Ingresa el segundo numero primo: ")
+    numero_q = obtener_primo()
     print("Numero primo valido:", numero_q)
 
     producto_pq  = (numero_p - 1) * (numero_q - 1)
@@ -240,7 +239,7 @@ def opcion_cifrar():
         if MCD != 1:
             print("El MCD no es 1, intentalo de nuevo.")
 
-    print("Numero e valido:", numero_e)
+    print("Numero valido:", numero_e)
     print("La llave publica es: (", numero_e, ",", producto_pq, ")")
 
     palabra = input("Ingresa una palabra: ").upper()
@@ -272,9 +271,11 @@ def main():
         if opcion_elegida == 1:
             print("Seleccionaste la Opción 1.")
             opcion_cifrar()
+            limpiar_pantalla()
         elif opcion_elegida == 2:
             print("Seleccionaste la Opción 2.")
             opcion_descifrar()
+            limpiar_pantalla()
         elif opcion_elegida == 0:
             print("Saliendo del programa...")
             break
